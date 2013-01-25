@@ -1,0 +1,29 @@
+services:
+  
+    # Strategy Contexts
+    invite_strategy_context.default:
+        class: YV\InviteBundle\Model\Strategy\InviteStrategyContext
+        arguments: [@doctrine.orm.entity_manager, %yv_invite.invite_class%] 
+    
+    # Managers
+    invite_manager.default:
+        class: YV\InviteBundle\Model\Manager\InviteManager
+        arguments: [@event_dispatcher, @yv_invite.invite_strategy_context]            
+
+    recipient_manager.default:
+        class: YV\InviteBundle\Model\Manager\RecipientManager
+        arguments: [@doctrine.orm.entity_manager, @event_dispatcher, %yv_invite.recipient_class%]
+
+    # Event Listeners 
+    invite_listener.default:
+        class: YV\InviteBundle\EventListener\InviteListener
+        arguments: [@doctrine.orm.entity_manager, @mailer, @twig, %yv_invite.config%]
+        tags:
+            - { name: kernel.event_listener, event: invite.created, method: onInviteCreated }
+            - { name: kernel.event_listener, event: invite.accepted, method: onInviteAccepted }
+            
+    # Form Types
+    recepient_form_type.default:
+        class: YV\InviteBundle\Form\Type\RecipientType
+        tags:
+            - { name: form.type, alias: yv_invite_recipient }                    

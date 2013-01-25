@@ -1,0 +1,11 @@
+yv_invite_index:
+    pattern:  /
+    defaults: { _controller: YVInviteBundle:Invite:index }
+
+yv_invite_send:
+    pattern:  /send
+    defaults: { _controller: YVInviteBundle:Invite:send }
+
+yv_invite_follow:
+    pattern:  /{code}
+    defaults: { _controller: YVInviteBundle:Invite:follow }

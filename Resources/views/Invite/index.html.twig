@@ -1,0 +1,7 @@
+{% for invite in invites %}
+    {% if invite.hasRecipients %}
+        {% for recipient in invite.recipients %}
+            <p>{{ recipient.name }} - {{ recipient.email }}</p>
+        {% endfor %}
+    {% endif %}
+{% endfor %}

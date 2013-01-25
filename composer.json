@@ -1,0 +1,37 @@
+{
+    "name": "yv/invite-bundle",
+    "minimum-stability": "dev",
+    "description": "Invite Management for Symfony2",
+    "keywords": ["invites"],
+    "homepage": "https://github.com/yourvine/YVInviteBundle",
+    "type": "symfony-bundle",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Milosz Naworski"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.1",
+        "symfony/process": ">=2.1.0,<2.3-dev"
+    },
+    "require-dev": {
+        "twig/twig": "*",
+        "doctrine/doctrine-bundle": "*",
+        "swiftmailer/swiftmailer": "*",
+        "symfony/yaml": "2.1.*",
+        "symfony/validator": "2.1.*",
+        "gedmo/doctrine-extensions": "2.3.*",
+        "stof/doctrine-extensions-bundle": "*"
+    },
+    "minimum-stability": "dev",
+    "autoload": {
+        "psr-0": { "YV\\InviteBundle": "" }
+    },
+    "target-dir": "YV/InviteBundle",
+    "extra": {
+        "branch-alias": {
+            "dev-master": "0.1.x-dev"
+        }
+    }
+}
