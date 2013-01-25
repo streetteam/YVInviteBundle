@@ -4,13 +4,13 @@ namespace YV\InviteBundle;
 
 final class InviteEvents
 {
-    const INVITE_CREATED = 'invite.created';
+    const INVITE_CREATED = 'yv_invite.created';
     
-    const INVITE_ACCEPTED = 'invite.accepted';
+    const INVITE_ACCEPTED = 'yv_invite.accepted';
     
-    const INVITE_SEND_INITIALIZE = 'invite.send.initialize';
+    const INVITE_SEND_INITIALIZE = 'yv_invite.send.initialize';
     
-    const INVITE_SEND_SUCCESS = 'invite.send.success';
+    const INVITE_SEND_SUCCESS = 'yv_invite.send.success';
     
-    const INVITE_SEND_COMPLETED = 'invite.send.completedjuz ';
+    const INVITE_SEND_COMPLETED = 'yv_invite.send.completed';
 }
