@@ -5,7 +5,7 @@ namespace YV\InviteBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-use YV\InviteBundle\InviteEvents;
+use YV\InviteBundle\YVInviteEvents;
 use YV\InviteBundle\Event\FormEvent;
 use YV\InviteBundle\Event\ResponseEvent;
 use YV\InviteBundle\Event\FilterInviteResponseEvent;
@@ -33,7 +33,7 @@ class InviteController extends Controller
         $dispatcher = $this->container->get('event_dispatcher');
 
         $responseEvent = new ResponseEvent($request);
-        $dispatcher->dispatch(InviteEvents::INVITE_SEND_INITIALIZE, $responseEvent);        
+        $dispatcher->dispatch(YVInviteEvents::INVITE_SEND_INITIALIZE, $responseEvent);        
         
         if (null !== $responseEvent->getResponse()) {
             return $responseEvent->getResponse();
@@ -47,7 +47,7 @@ class InviteController extends Controller
                 $recipientManager = $this->get('yv_invite.recipient_manager');
 
                 $formEvent = new FormEvent($form, $request);
-                $dispatcher->dispatch(InviteEvents::INVITE_SEND_SUCCESS, $formEvent);                 
+                $dispatcher->dispatch(YVInviteEvents::INVITE_SEND_SUCCESS, $formEvent);                 
                 
                 $data = $formEvent->getData();
                 
@@ -59,7 +59,7 @@ class InviteController extends Controller
                 }
 
                 $filterInviteResponseEvent = new FilterInviteResponseEvent($invite, $request, $response);
-                $dispatcher->dispatch(InviteEvents::INVITE_SEND_COMPLETED, $filterInviteResponseEvent);
+                $dispatcher->dispatch(YVInviteEvents::INVITE_SEND_COMPLETED, $filterInviteResponseEvent);
 
                 return $response;
             }

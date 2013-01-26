@@ -2,7 +2,7 @@
 
 namespace YV\InviteBundle;
 
-final class InviteEvents
+final class YVInviteEvents
 {
     const INVITE_CREATED = 'yv_invite.created';
     
