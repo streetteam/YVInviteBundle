@@ -9,7 +9,7 @@ use YV\InviteBundle\Model\ModelInterface\RecipientInterface;
 use YV\InviteBundle\Model\Strategy\StrategyContextInterface;
 use YV\InviteBundle\Model\Strategy\InviteStrategyInterface;
 use YV\InviteBundle\Event\InviteCreatedEvent;
-use YV\InviteBundle\InviteEvents;
+use YV\InviteBundle\YVInviteEvents;
 
 class InviteManager implements InviteManagerInterface
 {
@@ -98,7 +98,7 @@ class InviteManager implements InviteManagerInterface
         $invite = $this->strategy->generateInvite($data, $recipient, $withFlush);
         
         $inviteCreatedEvent = new InviteCreatedEvent($invite);
-        $this->eventDispatcher->dispatch(InviteEvents::INVITE_CREATED, $inviteCreatedEvent);
+        $this->eventDispatcher->dispatch(YVInviteEvents::INVITE_CREATED, $inviteCreatedEvent);
         
         return $invite;
     }  

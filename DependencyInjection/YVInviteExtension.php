@@ -32,8 +32,6 @@ class YVInviteExtension extends Extension
         $container->setParameter('yv_invite.sending.form.type', $config['sending']['form_type']);
         $container->setParameter('yv_invite.sending.form.name', $config['sending']['form_name']);
 
-        $container->setParameter('yv_invite.following.role.name', $config['following']['role_name']);
-        $container->setParameter('yv_invite.following.role.not_granted_route', $config['following']['role_not_granted_route']);
         $container->setParameter('yv_invite.following.route', $config['following']['route']);
         $container->setParameter('yv_invite.following.session_parameter_name', $config['following']['session_parameter_name']);
         

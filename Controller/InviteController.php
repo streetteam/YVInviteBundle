@@ -5,7 +5,7 @@ namespace YV\InviteBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
-use YV\InviteBundle\InviteEvents;
+use YV\InviteBundle\YVInviteEvents;
 use YV\InviteBundle\Event\FormEvent;
 use YV\InviteBundle\Event\ResponseEvent;
 use YV\InviteBundle\Event\FilterInviteResponseEvent;
@@ -13,8 +13,17 @@ use YV\InviteBundle\Model\ModelInterface\InvitableUserInterface;
 
 class InviteController extends Controller
 {
-    public function indexAction()
-    {        
+    public function indexAction(Request $request)
+    {   
+        $dispatcher = $this->container->get('event_dispatcher');
+        
+        $responseEvent = new ResponseEvent($request);
+        $dispatcher->dispatch(YVInviteEvents::INVITE_INDEX_INITIALIZE, $responseEvent);        
+        
+        if (null !== $responseEvent->getResponse()) {
+            return $responseEvent->getResponse();
+        }        
+        
         $inviteManager = $this->get('yv_invite.invite_manager');
         $invites = $inviteManager->getRepository()->findAll();
 
@@ -33,7 +42,7 @@ class InviteController extends Controller
         $dispatcher = $this->container->get('event_dispatcher');
 
         $responseEvent = new ResponseEvent($request);
-        $dispatcher->dispatch(InviteEvents::INVITE_SEND_INITIALIZE, $responseEvent);        
+        $dispatcher->dispatch(YVInviteEvents::INVITE_SEND_INITIALIZE, $responseEvent);        
         
         if (null !== $responseEvent->getResponse()) {
             return $responseEvent->getResponse();
@@ -47,7 +56,7 @@ class InviteController extends Controller
                 $recipientManager = $this->get('yv_invite.recipient_manager');
 
                 $formEvent = new FormEvent($form, $request);
-                $dispatcher->dispatch(InviteEvents::INVITE_SEND_SUCCESS, $formEvent);                 
+                $dispatcher->dispatch(YVInviteEvents::INVITE_SEND_SUCCESS, $formEvent);                 
                 
                 $data = $formEvent->getData();
                 
@@ -59,7 +68,7 @@ class InviteController extends Controller
                 }
 
                 $filterInviteResponseEvent = new FilterInviteResponseEvent($invite, $request, $response);
-                $dispatcher->dispatch(InviteEvents::INVITE_SEND_COMPLETED, $filterInviteResponseEvent);
+                $dispatcher->dispatch(YVInviteEvents::INVITE_SEND_COMPLETED, $filterInviteResponseEvent);
 
                 return $response;
             }
@@ -70,16 +79,19 @@ class InviteController extends Controller
         ));         
     }
     
-    public function followAction($code)
+    public function followAction(Request $request)
     {
-        $role = $this->container->getParameter('yv_invite.following.role.name');
-        if (is_string($role) && $this->get('security.context')->isGranted($role)) {
-            $route = $this->container->getParameter('yv_invite.following.role.not_granted_route');
-            return $this->redirect($this->generateUrl($route));
-        }
+        $dispatcher = $this->container->get('event_dispatcher');
+        
+        $responseEvent = new ResponseEvent($request);
+        $dispatcher->dispatch(YVInviteEvents::INVITE_FOLLOW_INITIALIZE, $responseEvent);        
+        
+        if (null !== $responseEvent->getResponse()) {
+            return $responseEvent->getResponse();
+        } 
 
         $parameterName = $this->container->getParameter('yv_invite.following.session_parameter_name');
-        $this->getRequest()->getSession()->set($parameterName, $code);
+        $this->getRequest()->getSession()->set($parameterName, $request->query->get('code'));
         $route = $this->container->getParameter('yv_invite.following.route');
         
         return $this->redirect($this->generateUrl($route));        

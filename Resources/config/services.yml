@@ -19,8 +19,8 @@ services:
         class: YV\InviteBundle\EventListener\InviteListener
         arguments: [@doctrine.orm.entity_manager, @mailer, @twig, %yv_invite.config%]
         tags:
-            - { name: kernel.event_listener, event: invite.created, method: onInviteCreated }
-            - { name: kernel.event_listener, event: invite.accepted, method: onInviteAccepted }
+            - { name: kernel.event_listener, event: yv_invite.created, method: onInviteCreated }
+            - { name: kernel.event_listener, event: yv_invite.accepted, method: onInviteAccepted }
             
     # Form Types
     recepient_form_type.default:
