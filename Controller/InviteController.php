@@ -13,8 +13,17 @@ use YV\InviteBundle\Model\ModelInterface\InvitableUserInterface;
 
 class InviteController extends Controller
 {
-    public function indexAction()
-    {        
+    public function indexAction(Request $request)
+    {   
+        $dispatcher = $this->container->get('event_dispatcher');
+        
+        $responseEvent = new ResponseEvent($request);
+        $dispatcher->dispatch(YVInviteEvents::INVITE_INDEX_INITIALIZE, $responseEvent);        
+        
+        if (null !== $responseEvent->getResponse()) {
+            return $responseEvent->getResponse();
+        }        
+        
         $inviteManager = $this->get('yv_invite.invite_manager');
         $invites = $inviteManager->getRepository()->findAll();
 
@@ -70,16 +79,19 @@ class InviteController extends Controller
         ));         
     }
     
-    public function followAction($code)
+    public function followAction(Request $request)
     {
-        $role = $this->container->getParameter('yv_invite.following.role.name');
-        if (is_string($role) && $this->get('security.context')->isGranted($role)) {
-            $route = $this->container->getParameter('yv_invite.following.role.not_granted_route');
-            return $this->redirect($this->generateUrl($route));
-        }
+        $dispatcher = $this->container->get('event_dispatcher');
+        
+        $responseEvent = new ResponseEvent($request);
+        $dispatcher->dispatch(YVInviteEvents::INVITE_FOLLOW_INITIALIZE, $responseEvent);        
+        
+        if (null !== $responseEvent->getResponse()) {
+            return $responseEvent->getResponse();
+        } 
 
         $parameterName = $this->container->getParameter('yv_invite.following.session_parameter_name');
-        $this->getRequest()->getSession()->set($parameterName, $code);
+        $this->getRequest()->getSession()->set($parameterName, $request->query->get('code'));
         $route = $this->container->getParameter('yv_invite.following.route');
         
         return $this->redirect($this->generateUrl($route));        

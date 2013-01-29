@@ -94,8 +94,6 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('following')
                     ->addDefaultsIfNotSet()
                         ->children()
-                            ->scalarNode('role_name')->defaultValue(null)->end() 
-                            ->scalarNode('role_not_granted_route')->defaultValue('yv_invite_index')->end() 
                             ->scalarNode('route')->defaultValue('yv_invite_index')->end()
                             ->scalarNode('session_parameter_name')->defaultValue('yv_invite.invite_code')->end()
                         ->end()
