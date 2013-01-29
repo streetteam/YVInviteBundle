@@ -2,7 +2,10 @@
 
 namespace YV\InviteBundle\Model\Strategy;
 
+use Gedmo\Tree\Entity\Repository\NestedTreeRepository;
+
 use YV\InviteBundle\Model\NestedInvite;
+use YV\InviteBundle\Model\ModelInterface\RecipientInterface;
 
 class NestedInviteStrategy extends InviteStrategy
 {    
@@ -18,6 +21,6 @@ class NestedInviteStrategy extends InviteStrategy
     public function generateInviteWithParent(NestedInvite $parent, array $data, RecipientInterface $recipient = null, $withFlush = true) 
     {
         $data['parent'] = $parent;
-        return $this->generateInvite($data, $recipient, true);
+        return $this->generateInvite($data, $recipient, $withFlush);
     } 
 }
