@@ -91,7 +91,7 @@ class InviteController extends Controller
         } 
 
         $parameterName = $this->container->getParameter('yv_invite.following.session_parameter_name');
-        $this->getRequest()->getSession()->set($parameterName, $request->query->get('code'));
+        $this->getRequest()->getSession()->set($parameterName, $request->get('code'));
         $route = $this->container->getParameter('yv_invite.following.route');
         
         return $this->redirect($this->generateUrl($route));        
