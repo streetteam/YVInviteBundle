@@ -57,7 +57,7 @@ Add InviteBundle to your application kernel
     {
         return array(
             // ...
-            new YV\InviteBundle(),
+            new YV\InviteBundle\YVInviteBundle(),
             // ...
         );
     }
